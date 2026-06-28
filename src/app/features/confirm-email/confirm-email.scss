@@ -6,56 +6,60 @@
 
 h1 {
   margin-top: 0;
-  color: #18181b;
+  color: var(--text);
 }
 
 p {
-  color: #3f3f46;
+  color: var(--muted2);
   line-height: 1.5;
 }
 
 strong {
-  color: #18181b;
+  color: var(--text);
 }
 
 .resend {
-  font: inherit;
-  font-weight: 600;
-  color: #fafafa;
-  background: #3730a3;
+  font-family: var(--font-display);
+  font-size: var(--fs-body);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #fff;
+  background: var(--accent);
   border: 0;
-  border-radius: 0.375rem;
-  padding: 0.625rem 1.25rem;
+  border-radius: var(--radius-card);
+  padding: 0.75rem 1.25rem;
   cursor: pointer;
+  transition: opacity 0.15s;
 }
 
 .resend:hover:not(:disabled),
 .resend:focus-visible {
-  background: #312e81;
+  opacity: 0.85;
 }
 
 .resend:disabled {
-  opacity: 0.6;
-  cursor: progress;
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 .status {
   min-height: 1.25rem;
-  font-size: 0.875rem;
-  color: #166534;
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  color: var(--win);
 }
 
 .status.error {
-  color: #b91c1c;
+  color: var(--accent);
 }
 
 .back {
   display: inline-block;
   margin-top: 1rem;
-  color: #3730a3;
+  color: var(--accent);
 }
 
-.back:hover,
-.back:focus-visible {
-  color: #312e81;
+.back:hover {
+  opacity: 0.85;
 }
