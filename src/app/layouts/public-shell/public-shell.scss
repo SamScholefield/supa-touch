@@ -1,0 +1,36 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+.shell-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #d4d4d8;
+}
+
+.brand {
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: #18181b;
+  text-decoration: none;
+}
+
+nav a {
+  color: #3730a3;
+  text-decoration: none;
+}
+
+nav a:hover,
+nav a:focus-visible {
+  text-decoration: underline;
+}
+
+.shell-main {
+  flex: 1;
+  padding: 1.5rem;
+}
