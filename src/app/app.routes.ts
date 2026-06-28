@@ -13,8 +13,7 @@ export const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        loadComponent: () =>
-          import('./features/public-dashboard/public-dashboard').then((m) => m.PublicDashboard),
+        loadComponent: () => import('./features/dashboard/dashboard').then((m) => m.Dashboard),
       },
     ],
   },
@@ -46,8 +45,7 @@ export const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        loadComponent: () =>
-          import('./features/admin-dashboard/admin-dashboard').then((m) => m.AdminDashboard),
+        loadComponent: () => import('./features/dashboard/dashboard').then((m) => m.Dashboard),
       },
     ],
   },

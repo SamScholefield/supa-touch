@@ -1,0 +1,9 @@
+<app-page-template [displayBackButton]="isAuthenticated()">
+  <span pageTitle>{{ title() }}</span>
+
+  @if (isAuthenticated()) {
+    <p>Signed in as {{ user()?.email }}. Your authenticated content lives here.</p>
+  } @else {
+    <p>This is the public area. Fixtures and results will appear here. Sign in for your dashboard.</p>
+  }
+</app-page-template>
