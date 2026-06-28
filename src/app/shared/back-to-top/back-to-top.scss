@@ -1,0 +1,36 @@
+:host {
+  position: sticky;
+  bottom: 1rem;
+  align-self: flex-end;
+  margin-left: auto;
+  opacity: 0;
+  transform: translateY(0.5rem);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+:host(.visible) {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.back-to-top {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  color: var(--text);
+  background: var(--surface2);
+  border: 1px solid var(--line2);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.back-to-top:hover {
+  background: var(--surface);
+  border-color: var(--accent);
+}
