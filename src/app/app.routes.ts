@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 
+import { APP_PATHS } from './app.paths';
 import { authGuard, guestGuard } from './core/auth/auth-guard';
 
 export const routes: Routes = [
@@ -19,18 +20,18 @@ export const routes: Routes = [
     ],
   },
   {
-    path: 'login',
+    path: APP_PATHS.LOGIN,
     canActivate: [guestGuard],
     loadComponent: () => import('./features/login/login').then((m) => m.Login),
   },
   {
-    path: 'confirm-email',
+    path: APP_PATHS.CONFIRM_EMAIL,
     canActivate: [guestGuard],
     loadComponent: () =>
       import('./features/confirm-email/confirm-email').then((m) => m.ConfirmEmail),
   },
   {
-    path: 'admin',
+    path: APP_PATHS.ADMIN,
     canActivate: [authGuard],
     canActivateChild: [authGuard],
     loadComponent: () =>

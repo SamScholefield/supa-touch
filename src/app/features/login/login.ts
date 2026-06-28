@@ -2,6 +2,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { email, form, FormField, minLength, required, submit } from '@angular/forms/signals';
 import { Router } from '@angular/router';
 
+import { APP_PATHS } from '../../app.paths';
 import { Auth } from '../../core/auth/auth';
 import { SignupFlow } from '../../core/auth/signup-flow';
 
@@ -64,7 +65,7 @@ export class Login {
             this.errorMessage.set(error.message);
             return;
           }
-          await this.router.navigate(['/admin']);
+          await this.router.navigate([APP_PATHS.ADMIN]);
         } else {
           const { data, error } = await this.auth.signUp(email, password, displayName);
           if (error) {
@@ -73,10 +74,10 @@ export class Login {
           }
           // When email confirmation is enabled, no session is returned until the user confirms.
           if (data.session) {
-            await this.router.navigate(['/admin']);
+            await this.router.navigate([APP_PATHS.ADMIN]);
           } else {
             this.signupFlow.pendingEmail.set(email);
-            await this.router.navigate(['/confirm-email']);
+            await this.router.navigate([APP_PATHS.CONFIRM_EMAIL]);
           }
         }
       } finally {
