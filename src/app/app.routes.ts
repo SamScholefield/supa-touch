@@ -26,12 +26,12 @@ export const routes: Routes = [
     children: [
       {
         path: APP_PATHS.LOGIN,
-        loadComponent: () => import('./features/login/login').then((m) => m.Login),
+        loadComponent: () => import('./core/auth/login/login').then((m) => m.Login),
       },
       {
         path: APP_PATHS.CONFIRM_EMAIL,
         loadComponent: () =>
-          import('./features/confirm-email/confirm-email').then((m) => m.ConfirmEmail),
+          import('./core/auth/confirm-email/confirm-email').then((m) => m.ConfirmEmail),
       },
     ],
   },

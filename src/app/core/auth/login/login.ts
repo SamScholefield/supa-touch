@@ -2,9 +2,9 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { email, form, FormField, minLength, required, submit } from '@angular/forms/signals';
 import { Router } from '@angular/router';
 
-import { APP_PATHS } from '../../app.paths';
-import { Auth } from '../../core/auth/auth';
-import { SignupFlow } from '../../core/auth/signup-flow';
+import { APP_PATHS } from '../../../app.paths';
+import { Auth } from '../auth';
+import { SignupFlow } from '../signup-flow';
 
 type Mode = 'signin' | 'signup';
 

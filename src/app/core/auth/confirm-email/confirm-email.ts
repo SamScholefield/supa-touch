@@ -1,8 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
-import { Auth } from '../../core/auth/auth';
-import { SignupFlow } from '../../core/auth/signup-flow';
+import { Auth } from '../auth';
+import { SignupFlow } from '../signup-flow';
 
 @Component({
   selector: 'app-confirm-email',
