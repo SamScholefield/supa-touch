@@ -1,0 +1,117 @@
+:host {
+  display: block;
+  height: var(--header-height);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  height: 100%;
+  padding: 0 1rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+
+@media (min-width: 992px) {
+  .header {
+    padding: 0 3rem;
+  }
+}
+
+.header-side {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.header-end {
+  gap: 1rem;
+}
+
+.brand {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: 0.02em;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  color: var(--muted2);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-card);
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s;
+}
+
+.icon-btn:hover {
+  color: var(--text);
+  background: var(--surface2);
+}
+
+.menu-btn {
+  display: none;
+}
+
+@media (max-width: 991.98px) {
+  .menu-btn {
+    display: inline-flex;
+  }
+}
+
+.user-email {
+  color: var(--muted);
+  font-size: var(--fs-input);
+  max-width: 14rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 575.98px) {
+  .user-email {
+    display: none;
+  }
+}
+
+.text-btn {
+  font: inherit;
+  font-size: var(--fs-input);
+  color: var(--accent);
+  background: transparent;
+  border: 0;
+  padding: 0.25rem 0.25rem;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.text-btn:hover {
+  text-decoration: underline;
+}
+
+// Auto-hide transition (active below desktop via the .header-hidden host class).
+:host {
+  transition: transform 0.3s ease;
+}
+
+:host(.header-hidden) {
+  transform: translateY(-100%);
+}
+
+@media (max-width: 991.98px) {
+  :host {
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+  }
+}
