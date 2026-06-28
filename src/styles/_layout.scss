@@ -1,0 +1,52 @@
+// Global layout primitives shared by the layout shells.
+// Kept global (not component-scoped) so the `main.main-content > *` rule can target the
+// routed component host element, removing per-page :host boilerplate.
+
+:root {
+  --header-height: 4rem;
+  --sidebar-width: 280px;
+  --footer-height: 2.5rem;
+  --footer-height-tablet: 7rem;
+  --footer-height-mobile: 10rem;
+  --active-footer-height: var(--footer-height);
+}
+
+@media (max-width: 991.98px) {
+  :root {
+    --active-footer-height: var(--footer-height-tablet);
+  }
+}
+
+@media (max-width: 575.98px) {
+  :root {
+    --active-footer-height: var(--footer-height-mobile);
+  }
+}
+
+// Main content area: capped width, centred, fills the space between header and footer.
+// On desktop the routed component is the scroll container (viewport-lock); below desktop the
+// whole window scrolls.
+main.main-content {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+
+  > *:not(router-outlet) {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    width: 100%;
+    overflow: auto;
+  }
+
+  @media (max-width: 991.98px) {
+    overflow: visible;
+
+    > *:not(router-outlet) {
+      overflow: visible;
+    }
+  }
+}

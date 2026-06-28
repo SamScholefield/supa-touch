@@ -1,0 +1,62 @@
+// Design tokens — sourced from .claude/DESIGN.md.
+// Dark theme is the default (on :root); light theme applies under [data-theme="light"].
+
+:root {
+  // Color — dark theme (default)
+  --bg: #0c0c0c;
+  --surface: #161616;
+  --surface2: #1f1f1f;
+  --line: #2a2a2a;
+  --line2: #333333;
+  --text: #ffffff;
+  --muted: #a0a0a0;
+  --muted2: #b8b8b8;
+  --accent: #ff8a6a;
+  --accent-lo: rgba(255, 138, 106, 0.14);
+  --cup: #f5c842;
+  --plate: #6da3ff;
+  --bowl: #a8aeb8;
+  --win: #34d870;
+  --win-lo: rgba(52, 216, 112, 0.14);
+
+  // Font families
+  --font-body: 'Barlow', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-display: 'Barlow Condensed', var(--font-body);
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  // Font-size scale
+  --fs-title: clamp(2.6rem, 10vw, 4.2rem);
+  --fs-title-sm: 2.2rem;
+  --fs-time: 1.375rem;
+  --fs-score: 1.75rem;
+  --fs-score-sm: 1.5rem;
+  --fs-body: 1rem;
+  --fs-input: 0.875rem;
+  --fs-body-sm: 0.8125rem;
+  --fs-label: 0.75rem;
+  --fs-vs: 0.6875rem;
+
+  // Radius
+  --radius-card: 6px;
+  --radius-sponsor: 10px;
+  --radius-badge: 3px;
+  --radius-pos: 4px;
+}
+
+:root[data-theme='light'] {
+  --bg: #f5f5f5;
+  --surface: #ffffff;
+  --surface2: #eaeaea;
+  --line: #d4d4d4;
+  --line2: #c0c0c0;
+  --text: #1a1a1a;
+  --muted: #636363;
+  --muted2: #4a4a4a;
+  --accent: #b5441f;
+  --accent-lo: rgba(181, 68, 31, 0.12);
+  --cup: #7c6000;
+  --plate: #2563b0;
+  --bowl: #555d68;
+  --win: #167a3c;
+  --win-lo: rgba(22, 122, 60, 0.1);
+}
