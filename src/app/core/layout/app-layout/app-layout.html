@@ -1,6 +1,7 @@
 <app-header [showMenu]="true" />
 <div class="content-area">
-  <main class="main-content">
+  <app-sidebar />
+  <main class="main-content" [attr.inert]="contentInert() ? '' : null">
     <router-outlet />
   </main>
 </div>

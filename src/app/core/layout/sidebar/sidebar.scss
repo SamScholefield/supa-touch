@@ -1,0 +1,117 @@
+:host {
+  display: block;
+}
+
+.sidebar-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  width: var(--sidebar-width);
+  background: var(--surface);
+  border-right: 1px solid var(--line);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  overflow-y: auto;
+  z-index: 1040;
+}
+
+:host(.open) .sidebar-panel {
+  transform: none;
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 1039;
+}
+
+:host(.open) .backdrop {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--header-height);
+  padding: 0 1rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.panel-title {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.close-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  color: var(--muted2);
+  background: transparent;
+  border: 0;
+  border-radius: var(--radius-card);
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  color: var(--text);
+  background: var(--surface2);
+}
+
+.nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem;
+}
+
+.nav-list a {
+  display: block;
+  padding: 0.625rem 0.75rem;
+  border-radius: var(--radius-card);
+  color: var(--muted2);
+  text-decoration: none;
+  font-size: var(--fs-body-sm);
+}
+
+.nav-list a:hover {
+  background: var(--surface2);
+  color: var(--text);
+}
+
+.nav-list a.active {
+  background: var(--accent-lo);
+  color: var(--accent);
+}
+
+@media (min-width: 992px) {
+  :host {
+    width: var(--sidebar-width);
+    flex-shrink: 0;
+  }
+
+  .sidebar-panel {
+    position: static;
+    transform: none;
+    height: 100%;
+    z-index: auto;
+  }
+
+  .backdrop,
+  .close-btn {
+    display: none;
+  }
+}
