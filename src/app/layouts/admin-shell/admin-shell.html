@@ -1,0 +1,13 @@
+<header class="shell-header">
+  <a class="brand" routerLink="/admin">supa-touch admin</a>
+  <nav aria-label="Admin">
+    <a routerLink="/admin" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      Dashboard
+    </a>
+    <button type="button" class="logout" (click)="logout()">Log out</button>
+  </nav>
+</header>
+
+<main class="shell-main">
+  <router-outlet />
+</main>
