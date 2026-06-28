@@ -2,6 +2,31 @@
   <h1>{{ heading() }}</h1>
 
   <form (submit)="onSubmit(); $event.preventDefault()" novalidate>
+    @if (mode() === 'signup') {
+      <div class="field">
+        <label for="displayName">Display name</label>
+        <input
+          id="displayName"
+          type="text"
+          autocomplete="name"
+          [formField]="loginForm.displayName"
+          [attr.aria-invalid]="
+            loginForm.displayName().touched() && loginForm.displayName().invalid()
+          "
+          [attr.aria-describedby]="
+            loginForm.displayName().touched() && loginForm.displayName().errors().length
+              ? 'displayName-error'
+              : null
+          "
+        />
+        @if (loginForm.displayName().touched() && loginForm.displayName().errors().length) {
+          <p id="displayName-error" class="field-error">
+            {{ loginForm.displayName().errors()[0].message }}
+          </p>
+        }
+      </div>
+    }
+
     <div class="field">
       <label for="email">Email</label>
       <input

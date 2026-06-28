@@ -32,13 +32,18 @@ export class Login {
     this.mode() === 'signin' ? 'Need an account? Sign up' : 'Have an account? Sign in',
   );
 
-  protected readonly model = signal({ email: '', password: '' });
+  protected readonly model = signal({ email: '', password: '', displayName: '' });
 
   protected readonly loginForm = form(this.model, (path) => {
     required(path.email, { message: 'Email is required' });
     email(path.email, { message: 'Enter a valid email address' });
     required(path.password, { message: 'Password is required' });
     minLength(path.password, 6, { message: 'Password must be at least 6 characters' });
+    // Display name is only collected (and required) when creating an account.
+    required(path.displayName, {
+      message: 'Display name is required',
+      when: () => this.mode() === 'signup',
+    });
   });
 
   protected toggleMode(): void {
@@ -51,7 +56,7 @@ export class Login {
 
     submit(this.loginForm, async () => {
       this.pending.set(true);
-      const { email, password } = this.model();
+      const { email, password, displayName } = this.model();
       try {
         if (this.mode() === 'signin') {
           const { error } = await this.auth.signInWithPassword(email, password);
@@ -61,7 +66,7 @@ export class Login {
           }
           await this.router.navigate(['/admin']);
         } else {
-          const { data, error } = await this.auth.signUp(email, password);
+          const { data, error } = await this.auth.signUp(email, password, displayName);
           if (error) {
             this.errorMessage.set(error.message);
             return;

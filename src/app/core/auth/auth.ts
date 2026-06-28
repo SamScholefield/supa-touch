@@ -43,11 +43,16 @@ export class Auth {
     return this.supabase.auth.signInWithPassword({ email, password });
   }
 
-  signUp(email: string, password: string): Promise<AuthResponse> {
+  signUp(email: string, password: string, displayName: string): Promise<AuthResponse> {
     return this.supabase.auth.signUp({
       email,
       password,
-      options: { emailRedirectTo: this.emailRedirectTo },
+      options: {
+        emailRedirectTo: this.emailRedirectTo,
+        // Stored in raw_user_meta_data; the handle_new_user() trigger copies it into
+        // profiles.display_name.
+        data: { display_name: displayName },
+      },
     });
   }
 
