@@ -63,8 +63,8 @@
 
   <div class="dashboard-actions">
     @if (isAuthenticated()) {
-      <button type="button" class="btn btn-accent" routerLink="/register-team">Register a team</button>
-      <button type="button" class="btn btn-surface" routerLink="/teams">Manage my teams</button>
+      <button type="button" class="btn btn-accent" routerLink="/admin/teams/create">Register a team</button>
+      <button type="button" class="btn btn-surface" routerLink="/admin/teams">Manage my teams</button>
     } @else {
       <button type="button" class="btn btn-accent" routerLink="/register">Register</button>
       <button type="button" class="btn btn-surface" routerLink="/login">Sign In</button>

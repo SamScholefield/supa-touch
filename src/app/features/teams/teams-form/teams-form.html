@@ -1,5 +1,83 @@
 <app-page-template>
-  <span pageTitle>New Team</span>
+  <span pageTitle>{{ title() }}</span>
 
-  <p>teams-form works!</p>
+  @if (loading()) {
+    <p class="meta-text">Loading…</p>
+  } @else {
+    <section class="team-form">
+      <form (submit)="onSubmit(); $event.preventDefault()" novalidate>
+        <div class="form-field">
+          <label for="name">Team name</label>
+          <input
+            id="name"
+            class="form-input"
+            type="text"
+            autocomplete="off"
+            [formField]="teamForm.name"
+            [attr.aria-invalid]="teamForm.name().touched() && teamForm.name().invalid()"
+            [attr.aria-describedby]="
+              teamForm.name().touched() && teamForm.name().errors().length ? 'name-error' : null
+            "
+          />
+          @if (teamForm.name().touched() && teamForm.name().errors().length) {
+            <p id="name-error" class="field-error">{{ teamForm.name().errors()[0].message }}</p>
+          }
+        </div>
+
+        @if (isEdit()) {
+          <div class="form-field">
+            <span class="members-label">Members</span>
+
+            @if (members().length) {
+              <ul class="member-list">
+                @for (member of members(); track member) {
+                  <li class="member-chip">
+                    <span>{{ member }}</span>
+                    <button
+                      type="button"
+                      class="btn-text"
+                      [attr.aria-label]="'Remove ' + member"
+                      (click)="removeMember(member)"
+                    >
+                      Remove
+                    </button>
+                  </li>
+                }
+              </ul>
+            } @else {
+              <p class="meta-text">No members yet.</p>
+            }
+
+            <div class="member-add">
+              <input
+                #memberEl
+                class="form-input"
+                type="email"
+                autocomplete="off"
+                placeholder="name@example.com"
+                aria-label="Add member by email"
+                [value]="memberInput()"
+                (input)="memberInput.set(memberEl.value)"
+                (keydown.enter)="$event.preventDefault(); addMember()"
+              />
+              <button type="button" class="btn btn-surface" (click)="addMember()">Add</button>
+            </div>
+            @if (memberError()) {
+              <p class="field-error">{{ memberError() }}</p>
+            }
+          </div>
+        }
+
+        <p class="form-message" role="alert" aria-live="assertive">
+          @if (errorMessage()) {
+            {{ errorMessage() }}
+          }
+        </p>
+
+        <button type="submit" class="btn btn-accent" [disabled]="pending()">
+          {{ pending() ? 'Saving…' : isEdit() ? 'Save changes' : 'Create team' }}
+        </button>
+      </form>
+    </section>
+  }
 </app-page-template>

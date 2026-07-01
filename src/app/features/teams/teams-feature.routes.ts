@@ -19,6 +19,10 @@ export const TEAMS_ROUTES: Routes = [
         path: APP_PATHS.SECTIONS.CREATE,
         loadComponent: () => import('./teams-form/teams-form').then((m) => m.TeamsForm),
       },
+      {
+        path: `${APP_PATHS.SECTIONS.EDIT}/:id`,
+        loadComponent: () => import('./teams-form/teams-form').then((m) => m.TeamsForm),
+      },
     ],
   },
 ];
