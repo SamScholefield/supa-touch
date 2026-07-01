@@ -9,8 +9,8 @@
   [attr.aria-modal]="breakpoint.isDesktop() ? null : 'true'"
 >
   <div class="panel-head">
-    <span class="panel-title">Menu</span>
-    <button type="button" class="close-btn" aria-label="Close navigation" (click)="state.close()">
+    <span class="panel-title meta-text">Menu</span>
+    <button type="button" class="btn-icon close-btn" aria-label="Close navigation" (click)="state.close()">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
       </svg>
@@ -27,5 +27,10 @@
         Dashboard
       </a>
     </li>
+    @for (link of navLinks; track link.path) {
+      <li>
+        <a [routerLink]="link.path" routerLinkActive="active">{{ link.label }}</a>
+      </li>
+    }
   </ul>
 </nav>

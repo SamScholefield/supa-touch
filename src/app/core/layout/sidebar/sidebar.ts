@@ -22,7 +22,15 @@ export class Sidebar {
   protected readonly breakpoint = inject(Breakpoint);
   private readonly router = inject(Router);
 
-  protected readonly adminLink = `/${APP_PATHS.ADMIN}`;
+  protected readonly adminLink = `/${APP_PATHS.FEATURES.ADMIN}`;
+
+  protected readonly navLinks = [
+    { label: 'Teams', path: `${this.adminLink}/${APP_PATHS.FEATURES.TEAMS}` },
+    { label: 'Users', path: `${this.adminLink}/${APP_PATHS.FEATURES.USERS}` },
+    { label: 'Groups', path: `${this.adminLink}/${APP_PATHS.FEATURES.GROUPS}` },
+    { label: 'Rules', path: `${this.adminLink}/${APP_PATHS.FEATURES.RULES}` },
+    { label: 'Profile', path: `${this.adminLink}/${APP_PATHS.FEATURES.PROFILE}` },
+  ];
 
   private readonly panel = viewChild<ElementRef<HTMLElement>>('panel');
 

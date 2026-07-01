@@ -47,29 +47,9 @@
 }
 
 .panel-title {
-  font-family: var(--font-mono);
-  font-size: var(--fs-label);
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--muted);
-}
-
-.close-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.25rem;
-  height: 2.25rem;
-  color: var(--muted2);
-  background: transparent;
-  border: 0;
-  border-radius: var(--radius-card);
-  cursor: pointer;
-}
-
-.close-btn:hover {
-  color: var(--text);
-  background: var(--surface2);
 }
 
 .nav-list {
