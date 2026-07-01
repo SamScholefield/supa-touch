@@ -9,7 +9,7 @@ export const authGuard: CanActivateFn & CanActivateChildFn = () => {
   const auth = inject(Auth);
   const router = inject(Router);
 
-  return auth.isAuthenticated() ? true : router.createUrlTree([APP_PATHS.LOGIN]);
+  return auth.isAuthenticated() ? true : router.createUrlTree([APP_PATHS.FEATURES.LOGIN]);
 };
 
 /** Keeps already-authenticated users out of /login, sending them to /admin. */
@@ -17,5 +17,5 @@ export const guestGuard: CanActivateFn = () => {
   const auth = inject(Auth);
   const router = inject(Router);
 
-  return auth.isAuthenticated() ? router.createUrlTree([APP_PATHS.ADMIN]) : true;
+  return auth.isAuthenticated() ? router.createUrlTree([APP_PATHS.FEATURES.ADMIN]) : true;
 };

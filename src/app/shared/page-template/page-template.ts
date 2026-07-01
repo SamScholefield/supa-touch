@@ -32,7 +32,7 @@ export class PageTemplate {
     if ((this.view?.history.length ?? 0) > 1) {
       this.location.back();
     } else {
-      this.router.navigateByUrl(APP_PATHS.ROOT);
+      this.router.navigateByUrl(APP_PATHS.FEATURES.ROOT);
     }
   }
 }

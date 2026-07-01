@@ -6,8 +6,26 @@
  * Segments have no leading slash (except ROOT); the router/callers add slashes as needed.
  */
 export const APP_PATHS = {
-  ROOT: '/',
-  LOGIN: 'login',
-  CONFIRM_EMAIL: 'confirm-email',
-  ADMIN: 'admin',
+  FEATURES: {
+    ROOT: '/',
+    LOGIN: 'login',
+    CONFIRM_EMAIL: 'confirm-email',
+    PAGE_NOT_FOUND: '404',
+    ADMIN: 'admin',
+    TEAMS: 'teams',
+    USERS: 'users',
+    GROUPS: 'groups',
+    RULES: 'rules',
+    TABLES: 'tables',
+    FIXTURES: 'fixtures',
+    PROFILE: 'profile',
+    DASHBOARD: 'dashboard',
+  },
+
+  SECTIONS: {
+    LIST: 'list',
+    DETAIL: 'detail',
+    CREATE: 'create',
+    EDIT: 'edit',
+  },
 } as const;

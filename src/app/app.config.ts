@@ -15,14 +15,14 @@ import {
 } from '@angular/router';
 import { filter } from 'rxjs';
 
-import { routes } from './app.routes';
+import { APP_ROUTES } from './app.routes';
 import { Auth } from './core/auth/auth';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(
-      routes,
+      APP_ROUTES,
       // Bind route params, query params, data and resolved values straight to component input()s.
       withComponentInputBinding(),
       // Restore scroll position on back/forward navigation.

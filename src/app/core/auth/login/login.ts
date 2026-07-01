@@ -65,7 +65,7 @@ export class Login {
             this.errorMessage.set(error.message);
             return;
           }
-          await this.router.navigate([APP_PATHS.ADMIN]);
+          await this.router.navigate([APP_PATHS.FEATURES.ADMIN]);
         } else {
           const { data, error } = await this.auth.signUp(email, password, displayName);
           if (error) {
@@ -74,10 +74,10 @@ export class Login {
           }
           // When email confirmation is enabled, no session is returned until the user confirms.
           if (data.session) {
-            await this.router.navigate([APP_PATHS.ADMIN]);
+            await this.router.navigate([APP_PATHS.FEATURES.ADMIN]);
           } else {
             this.signupFlow.pendingEmail.set(email);
-            await this.router.navigate([APP_PATHS.CONFIRM_EMAIL]);
+            await this.router.navigate([APP_PATHS.FEATURES.CONFIRM_EMAIL]);
           }
         }
       } finally {
