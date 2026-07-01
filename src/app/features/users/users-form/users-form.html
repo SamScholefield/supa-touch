@@ -37,23 +37,12 @@
         </button>
       </form>
 
-      <div class="role-row">
-        <div class="role-copy">
-          <span class="role-label">System admin</span>
-          <span class="meta-text">Can administer all registered users.</span>
-        </div>
-        <button
-          type="button"
-          class="btn"
-          [class.btn-danger]="isSystemAdmin()"
-          [class.btn-surface]="!isSystemAdmin()"
-          [disabled]="togglingAdmin()"
-          [attr.aria-pressed]="isSystemAdmin()"
-          (click)="toggleSystemAdmin()"
-        >
-          {{ isSystemAdmin() ? 'Revoke admin' : 'Make admin' }}
-        </button>
-      </div>
+      @if (isSystemAdmin()) {
+        <p class="role-note meta-text">
+          <span class="badge">System admin</span>
+          Managed outside the app.
+        </p>
+      }
 
       <p class="form-message" role="alert" aria-live="assertive">
         @if (errorMessage()) {

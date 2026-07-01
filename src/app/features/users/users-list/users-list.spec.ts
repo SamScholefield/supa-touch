@@ -8,7 +8,6 @@ const usersStub = {
   listUsers: async () => ({ data: [], error: null }),
   getUser: async () => ({ data: null, error: null }),
   updateUser: async () => ({ data: null, error: null }),
-  setSystemAdmin: async () => ({ data: null, error: null }),
 } as unknown as Users;
 
 describe('UsersList', () => {

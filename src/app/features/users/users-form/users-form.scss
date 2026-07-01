@@ -15,23 +15,20 @@ form {
   gap: 1rem;
 }
 
-.role-row {
+.role-note {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-top: 2rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--line);
+  gap: 0.5rem;
+  margin: 1.5rem 0 0;
 }
 
-.role-copy {
-  display: flex;
-  flex-direction: column;
-  gap: 0.125rem;
-}
-
-.role-label {
-  font-weight: 600;
-  color: var(--text);
+.badge {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.1rem 0.4rem;
+  border-radius: var(--radius-badge);
+  color: var(--accent);
+  background: var(--accent-lo);
 }

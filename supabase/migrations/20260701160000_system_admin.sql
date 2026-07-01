@@ -3,11 +3,10 @@
 -- privilege guard, opens profiles RLS to system admins, and grants the table
 -- privileges the USERS console needs.
 
--- Guard against privilege escalation / lockout.
---  * A user can't change is_system_admin unless they already are a system admin.
---    auth.uid() is null when run from the SQL editor / service role, which lets
---    the first admin be bootstrapped manually.
---  * The last system admin can't be demoted.
+-- is_system_admin is NOT an application concern: it can only be changed out of
+-- band (Supabase SQL editor / service role, where auth.uid() is null). Any
+-- in-app caller (a JWT is present) is rejected — including system admins — so no
+-- UI path can grant or revoke the role.
 create function public.guard_profile_privilege()
 returns trigger
 language plpgsql
@@ -15,15 +14,9 @@ security definer
 set search_path = ''
 as $$
 begin
-  if new.is_system_admin is distinct from old.is_system_admin then
-    if auth.uid() is not null and not public.is_system_admin() then
-      raise exception 'only system admins can change system admin status'
-        using errcode = '42501';
-    end if;
-    if old.is_system_admin and not new.is_system_admin
-       and (select count(*) from public.profiles where is_system_admin) <= 1 then
-      raise exception 'cannot remove the last system admin' using errcode = 'PT002';
-    end if;
+  if new.is_system_admin is distinct from old.is_system_admin and auth.uid() is not null then
+    raise exception 'system admin status can only be changed by an administrator'
+      using errcode = '42501';
   end if;
   return new;
 end;

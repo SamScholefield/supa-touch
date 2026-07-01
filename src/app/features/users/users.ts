@@ -30,8 +30,4 @@ export class Users {
   updateUser(id: string, patch: { display_name: string }) {
     return this.supabase.from('profiles').update(patch).eq('id', id);
   }
-
-  setSystemAdmin(id: string, value: boolean) {
-    return this.supabase.from('profiles').update({ is_system_admin: value }).eq('id', id);
-  }
 }

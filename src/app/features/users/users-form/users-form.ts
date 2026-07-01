@@ -23,11 +23,10 @@ export class UsersForm implements OnInit {
 
   protected readonly loading = signal(true);
   protected readonly pending = signal(false);
-  protected readonly togglingAdmin = signal(false);
   protected readonly errorMessage = signal<string | null>(null);
 
   protected readonly user = signal<Profile | null>(null);
-  protected readonly isSystemAdmin = signal(false);
+  protected readonly isSystemAdmin = computed(() => this.user()?.is_system_admin ?? false);
   protected readonly email = computed(() => this.user()?.email ?? '');
 
   protected readonly model = signal({ display_name: '' });
@@ -53,7 +52,6 @@ export class UsersForm implements OnInit {
     }
     this.user.set(data);
     this.model.set({ display_name: data.display_name ?? '' });
-    this.isSystemAdmin.set(data.is_system_admin);
     this.loading.set(false);
   }
 
@@ -74,24 +72,6 @@ export class UsersForm implements OnInit {
         this.pending.set(false);
       }
     });
-  }
-
-  protected async toggleSystemAdmin(): Promise<void> {
-    const id = this.id();
-    if (!id) return;
-    this.errorMessage.set(null);
-    this.togglingAdmin.set(true);
-    const next = !this.isSystemAdmin();
-    try {
-      const { error } = await this.users.setSystemAdmin(id, next);
-      if (error) {
-        this.errorMessage.set(mapUserError(error));
-        return;
-      }
-      this.isSystemAdmin.set(next);
-    } finally {
-      this.togglingAdmin.set(false);
-    }
   }
 
   private toList(): Promise<boolean> {
