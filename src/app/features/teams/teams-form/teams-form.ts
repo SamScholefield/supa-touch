@@ -27,9 +27,15 @@ export class TeamsForm implements OnInit {
   protected readonly isEdit = computed(() => !!this.id());
   protected readonly title = computed(() => (this.isEdit() ? 'Edit Team' : 'New Team'));
 
+  /** The signed-in user's email, lowercased — an admin cannot remove themselves. */
+  protected readonly currentEmail = computed(() => this.auth.user()?.email?.toLowerCase() ?? '');
+
   protected readonly loading = signal(false);
   protected readonly pending = signal(false);
   protected readonly errorMessage = signal<string | null>(null);
+
+  protected readonly confirmingDelete = signal(false);
+  protected readonly deleting = signal(false);
 
   protected readonly model = signal({ name: '' });
   protected readonly teamForm = form(this.model, (path) => {
@@ -77,8 +83,40 @@ export class TeamsForm implements OnInit {
     this.memberError.set(null);
   }
 
+  /** Whether a member row may be removed — admins cannot remove themselves. */
+  protected canRemove(email: string): boolean {
+    return email.toLowerCase() !== this.currentEmail();
+  }
+
   protected removeMember(email: string): void {
+    if (!this.canRemove(email)) return;
     this.members.update((list) => list.filter((m) => m !== email));
+  }
+
+  protected requestDelete(): void {
+    this.confirmingDelete.set(true);
+  }
+
+  protected cancelDelete(): void {
+    this.confirmingDelete.set(false);
+  }
+
+  protected async confirmDelete(): Promise<void> {
+    const teamId = this.id();
+    if (!teamId) return;
+    this.errorMessage.set(null);
+    this.deleting.set(true);
+    try {
+      const { error } = await this.teams.deleteTeam(teamId);
+      if (error) {
+        this.errorMessage.set(mapTeamError(error));
+        this.confirmingDelete.set(false);
+        return;
+      }
+      await this.toList();
+    } finally {
+      this.deleting.set(false);
+    }
   }
 
   protected onSubmit(): void {

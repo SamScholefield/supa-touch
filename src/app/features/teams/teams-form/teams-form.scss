@@ -45,3 +45,24 @@ form {
     flex: 1;
   }
 }
+
+.member-you {
+  margin-left: 0.375rem;
+  color: var(--muted);
+}
+
+.danger-zone {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+}
+
+.danger-prompt {
+  margin: 0 0 0.75rem;
+  color: var(--muted2);
+}
+
+.danger-actions {
+  display: flex;
+  gap: 0.5rem;
+}

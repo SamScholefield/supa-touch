@@ -39,6 +39,12 @@
   border: 1px solid var(--line2);
 }
 
+// Destructive action (e.g. delete).
+.btn-danger {
+  color: #fff;
+  background: var(--loss);
+}
+
 // Square icon button: transparent, fills on hover. Use for toolbar / header / sidebar icons.
 .btn-icon {
   display: inline-flex;

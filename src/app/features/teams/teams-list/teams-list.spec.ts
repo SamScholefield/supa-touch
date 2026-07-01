@@ -7,6 +7,7 @@ import { TeamsList } from './teams-list';
 const teamsStub = {
   createTeam: async () => ({ data: null, error: null }),
   updateTeam: async () => ({ data: null, error: null }),
+  deleteTeam: async () => ({ data: null, error: null }),
   getTeam: async () => ({ data: null, error: null }),
   listMyTeams: async () => ({ data: [], error: null }),
 } as unknown as Teams;

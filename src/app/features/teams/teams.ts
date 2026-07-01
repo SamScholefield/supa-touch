@@ -30,6 +30,10 @@ export class Teams {
     });
   }
 
+  deleteTeam(id: string) {
+    return this.supabase.rpc('delete_team', { team_id: id });
+  }
+
   async getTeam(id: string): Promise<Result<Team>> {
     const { data, error } = await this.supabase.from('teams').select('*').eq('id', id).single();
     return { data: data as Team | null, error };

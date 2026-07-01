@@ -11,6 +11,8 @@ export function mapTeamError(error: PostgrestError): string {
       return 'A team with that name already exists.';
     case '42501':
       return 'Only team admins can make changes.';
+    case 'PT001':
+      return "You can't remove yourself. Delete the team instead.";
     default:
       return error.message;
   }

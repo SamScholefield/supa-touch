@@ -32,15 +32,22 @@
               <ul class="member-list">
                 @for (member of members(); track member) {
                   <li class="member-chip">
-                    <span>{{ member }}</span>
-                    <button
-                      type="button"
-                      class="btn-text"
-                      [attr.aria-label]="'Remove ' + member"
-                      (click)="removeMember(member)"
-                    >
-                      Remove
-                    </button>
+                    <span
+                      >{{ member }}
+                      @if (!canRemove(member)) {
+                        <span class="member-you">(you)</span>
+                      }
+                    </span>
+                    @if (canRemove(member)) {
+                      <button
+                        type="button"
+                        class="btn-text"
+                        [attr.aria-label]="'Remove ' + member"
+                        (click)="removeMember(member)"
+                      >
+                        Remove
+                      </button>
+                    }
                   </li>
                 }
               </ul>
@@ -78,6 +85,36 @@
           {{ pending() ? 'Saving…' : isEdit() ? 'Save changes' : 'Create team' }}
         </button>
       </form>
+
+      @if (isEdit()) {
+        <div class="danger-zone">
+          @if (confirmingDelete()) {
+            <p class="danger-prompt">Delete this team? This can't be undone.</p>
+            <div class="danger-actions">
+              <button
+                type="button"
+                class="btn btn-danger"
+                [disabled]="deleting()"
+                (click)="confirmDelete()"
+              >
+                {{ deleting() ? 'Deleting…' : 'Confirm delete' }}
+              </button>
+              <button
+                type="button"
+                class="btn btn-surface"
+                [disabled]="deleting()"
+                (click)="cancelDelete()"
+              >
+                Cancel
+              </button>
+            </div>
+          } @else {
+            <button type="button" class="btn btn-danger" (click)="requestDelete()">
+              Delete team
+            </button>
+          }
+        </div>
+      }
     </section>
   }
 </app-page-template>
