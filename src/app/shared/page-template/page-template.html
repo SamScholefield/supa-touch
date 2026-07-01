@@ -1,0 +1,23 @@
+<div class="page-toolbar" [style.top]="toolbarTop()">
+  <div class="toolbar-row">
+    @if (displayBackButton()) {
+      <button type="button" class="btn-icon btn-icon--outline" aria-label="Go back" (click)="goBack()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+    }
+    <h1 class="page-title"><ng-content select="[pageTitle]" /></h1>
+    <span class="toolbar-spacer"></span>
+    <div class="toolbar-slot"><ng-content select="[pageToolbarPageControls]" /></div>
+    <div class="toolbar-slot"><ng-content select="[pageToolbarPageActions]" /></div>
+  </div>
+  <div class="toolbar-nav"><ng-content select="[pageToolbarNav]" /></div>
+</div>
+
+<div class="page-body">
+  <ng-content />
+  @if (displayBackToTop()) {
+    <app-back-to-top />
+  }
+</div>

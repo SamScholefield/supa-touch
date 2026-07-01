@@ -1,0 +1,23 @@
+:host {
+  position: sticky;
+  bottom: 1rem;
+  align-self: flex-end;
+  margin-left: auto;
+  opacity: 0;
+  transform: translateY(0.5rem);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+:host(.visible) {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+// Shares the page back button's look via the global `.btn-icon.btn-icon--outline` classes
+// (size, shape, border, colours, hover). Only the floating-specific elevation cue lives here —
+// a shadow so the control reads as raised over the scrolling content it sits above.
+.back-to-top {
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.3);
+}

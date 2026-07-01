@@ -49,8 +49,6 @@ export class Auth {
       password,
       options: {
         emailRedirectTo: this.emailRedirectTo,
-        // Stored in raw_user_meta_data; the handle_new_user() trigger copies it into
-        // profiles.display_name.
         data: { display_name: displayName },
       },
     });

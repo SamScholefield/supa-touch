@@ -1,0 +1,98 @@
+<header class="header">
+  <div class="header-side">
+    @if (showMenu()) {
+      <button
+        type="button"
+        class="btn-icon menu-btn"
+        aria-label="Toggle navigation menu"
+        [attr.aria-expanded]="sidebar.isOpen()"
+        (click)="sidebar.toggle()"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            d="M3 6h18M3 12h18M3 18h18"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+        </svg>
+      </button>
+    }
+    <a class="brand" [routerLink]="brandLink()">Phuket Mixed Touch III</a>
+  </div>
+
+  <div class="header-side header-end">
+    <div class="user-menu" #menuRoot>
+      <button
+        type="button"
+        class="btn-icon"
+        #menuTrigger
+        aria-haspopup="true"
+        [attr.aria-expanded]="menuOpen()"
+        aria-controls="user-menu-panel"
+        aria-label="Account menu"
+        (click)="toggleMenu()"
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2" />
+          <path
+            d="M4 20a8 8 0 0 1 16 0"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+        </svg>
+      </button>
+
+      @if (menuOpen()) {
+        <div class="user-menu__panel" id="user-menu-panel">
+          @if (isAuthenticated()) {
+            <span class="user-menu__email">{{ user()?.email }}</span>
+          }
+
+          <button type="button" class="user-menu__item" (click)="theme.toggle()">
+            @if (theme.mode() === 'dark') {
+              <span>Theme</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" />
+                <path
+                  d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+              </svg>
+            } @else {
+              <span>Theme</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path
+                  d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            }
+          </button>
+
+          @if (isAuthenticated()) {
+            <button type="button" class="user-menu__item" (click)="logout()">
+              <span>Sign out</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path
+                  d="M15 3h3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-3M10 17l5-5-5-5M15 12H3"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
+          } @else {
+            <a class="user-menu__item" [routerLink]="loginLink" (click)="closeMenu()">Sign in</a>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</header>

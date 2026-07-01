@@ -1,0 +1,13 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+// Below desktop the root grows with content so the window scrolls (footer can be pushed down).
+@media (max-width: 991.98px) {
+  :host {
+    height: auto;
+    min-height: 100vh;
+  }
+}

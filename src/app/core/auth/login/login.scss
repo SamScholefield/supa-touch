@@ -1,0 +1,28 @@
+// Host is a flex column (global `router-outlet + *`), so the auto left/right margins below
+// suppress the default stretch. Give the section a definite (capped) width so the form and its
+// fields fill a comfortable measure instead of shrinking to the inputs' intrinsic width.
+.login {
+  width: 100%;
+  max-width: 32rem;
+  margin: 4rem auto 0;
+  padding: 0 1rem;
+}
+
+h1 {
+  margin-top: 0;
+  text-align: center;
+  color: var(--text);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+// Centred mode switch below the form; keeps the persistent underline affordance.
+.toggle {
+  display: block;
+  margin: 1rem auto 0;
+  text-decoration: underline;
+}

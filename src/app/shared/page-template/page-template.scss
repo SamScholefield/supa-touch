@@ -1,0 +1,67 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+}
+
+// Fixed header above the scrolling body. flex-shrink:0 keeps it from collapsing; position:sticky
+// only bites below desktop, where the whole window scrolls and the toolbar pins under the header.
+.page-toolbar {
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  padding: 0 1rem;
+  background: var(--bg);
+  transition: top 0.3s ease;
+}
+
+// Matches the header/sidebar header band height so the title lines up with the sidebar's
+// "Menu" header; align-items:center keeps the back button and title vertically centered.
+.toolbar-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: var(--header-height);
+}
+
+.page-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.75rem;
+  color: var(--text);
+}
+
+.toolbar-spacer {
+  flex: 1;
+}
+
+.toolbar-slot {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.toolbar-nav:empty {
+  display: none;
+}
+
+// Scroll owner on desktop: fills the remaining height and scrolls its own overflow while the
+// toolbar stays put. Below desktop it reverts to natural flow so the window scrolls instead.
+.page-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  // Top padding gives breathing room under the toolbar and keeps a hovered card's upward
+  // lift (translateY) from being clipped by this scroll container's top edge.
+  padding: 1.25rem 1rem 2.5rem;
+
+  @media (max-width: 991.98px) {
+    overflow-y: visible;
+  }
+}

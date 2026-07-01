@@ -1,0 +1,8 @@
+<app-header [showMenu]="true" />
+<div class="content-area">
+  <app-sidebar />
+  <main class="main-content" [attr.inert]="contentInert() ? '' : null">
+    <router-outlet />
+  </main>
+</div>
+<app-footer />
