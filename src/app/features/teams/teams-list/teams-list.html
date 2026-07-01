@@ -1,5 +1,26 @@
 <app-page-template>
   <span pageTitle>Teams</span>
 
-  <p>teams-list works!</p>
+  <a pageToolbarPageActions class="btn btn-accent" [routerLink]="createLink">New team</a>
+
+  <section class="teams">
+    @if (loading()) {
+      <p class="meta-text">Loading…</p>
+    } @else if (error()) {
+      <p class="form-message" role="alert">{{ error() }}</p>
+    } @else if (list().length) {
+      <ul class="team-list">
+        @for (team of list(); track team.id) {
+          <li class="team-row">
+            <span class="team-name">{{ team.name }}</span>
+            @if (isAdmin(team)) {
+              <a class="btn-text" [routerLink]="editLink(team)">Edit</a>
+            }
+          </li>
+        }
+      </ul>
+    } @else {
+      <p class="meta-text">You're not on any teams yet. Create one to get started.</p>
+    }
+  </section>
 </app-page-template>
