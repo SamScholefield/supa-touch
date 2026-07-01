@@ -1,5 +1,8 @@
 @use 'styles/tokens';
+@use 'styles/typography';
 @use 'styles/layout';
+@use 'styles/buttons';
+@use 'styles/forms';
 
 html,
 body {
@@ -25,13 +28,6 @@ body {
 *::before,
 *::after {
   box-sizing: border-box;
-}
-
-h1,
-h2,
-h3 {
-  font-family: var(--font-display);
-  font-weight: 700;
 }
 
 // Accessible focus outline for keyboard users across the app.

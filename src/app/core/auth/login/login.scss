@@ -1,6 +1,11 @@
+// Host is a flex column (global `router-outlet + *`), so the auto left/right margins below
+// suppress the default stretch. Give the section a definite (capped) width so the form and its
+// fields fill a comfortable measure instead of shrinking to the inputs' intrinsic width.
 .login {
-  max-width: 24rem;
+  width: 100%;
+  max-width: 32rem;
   margin: 4rem auto 0;
+  padding: 0 1rem;
 }
 
 h1 {
@@ -15,92 +20,9 @@ form {
   gap: 1rem;
 }
 
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: 0.375rem;
-}
-
-label {
-  font-weight: 600;
-  color: var(--muted2);
-}
-
-input {
-  font-family: var(--font-body);
-  font-size: var(--fs-input);
-  padding: 0.75rem 0.875rem;
-  color: var(--text);
-  background: var(--surface);
-  border: 1px solid var(--line2);
-  border-radius: var(--radius-card);
-}
-
-input::placeholder {
-  color: var(--muted);
-}
-
-input:focus-visible {
-  outline: none;
-  border-color: var(--accent);
-}
-
-input[aria-invalid='true'] {
-  border-color: var(--accent);
-}
-
-.field-error {
-  margin: 0;
-  color: var(--accent);
-  font-family: var(--font-mono);
-  font-size: var(--fs-label);
-}
-
-.form-message {
-  margin: 0;
-  min-height: 1.25rem;
-  font-family: var(--font-mono);
-  font-size: var(--fs-label);
-  color: var(--accent);
-}
-
-.submit {
-  font-family: var(--font-display);
-  font-size: var(--fs-body);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #fff;
-  background: var(--accent);
-  border: 0;
-  border-radius: var(--radius-card);
-  padding: 0.875rem;
-  cursor: pointer;
-  transition: opacity 0.15s;
-}
-
-.submit:hover:not(:disabled),
-.submit:focus-visible {
-  opacity: 0.85;
-}
-
-.submit:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
+// Centred mode switch below the form; keeps the persistent underline affordance.
 .toggle {
   display: block;
   margin: 1rem auto 0;
-  font: inherit;
-  color: var(--accent);
-  background: transparent;
-  border: 0;
-  padding: 0.25rem;
-  cursor: pointer;
   text-decoration: underline;
-}
-
-.toggle:hover {
-  opacity: 0.85;
 }

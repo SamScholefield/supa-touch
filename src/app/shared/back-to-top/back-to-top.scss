@@ -15,22 +15,9 @@
   pointer-events: auto;
 }
 
+// Shares the page back button's look via the global `.btn-icon.btn-icon--outline` classes
+// (size, shape, border, colours, hover). Only the floating-specific elevation cue lives here —
+// a shadow so the control reads as raised over the scrolling content it sits above.
 .back-to-top {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.75rem;
-  height: 2.75rem;
-  color: var(--text);
-  background: var(--surface2);
-  border: 1px solid var(--line2);
-  border-radius: 50%;
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-  transition: background 0.15s, border-color 0.15s;
-}
-
-.back-to-top:hover {
-  background: var(--surface);
-  border-color: var(--accent);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.3);
 }

@@ -1,0 +1,51 @@
+// Form field patterns — DESIGN.md §4. Global so component templates can apply them directly.
+
+// Label + control stack.
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+
+  label {
+    font-weight: 600;
+    color: var(--muted2);
+  }
+}
+
+// Text input / select. Surface background, accent border on focus.
+.form-input {
+  font-family: var(--font-body);
+  font-size: var(--fs-input);
+  padding: 0.75rem 0.875rem;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--line2);
+  border-radius: var(--radius-card);
+
+  &::placeholder {
+    color: var(--muted);
+  }
+
+  &:focus-visible {
+    outline: none;
+    border-color: var(--accent);
+  }
+
+  &[aria-invalid='true'] {
+    border-color: var(--accent);
+  }
+}
+
+// Inline validation / status text under a form.
+.field-error,
+.form-message {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  color: var(--accent);
+}
+
+// Reserve vertical space so a form-level message doesn't shift layout when it appears.
+.form-message {
+  min-height: 1.25rem;
+}

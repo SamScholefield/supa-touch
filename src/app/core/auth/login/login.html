@@ -3,10 +3,11 @@
 
   <form (submit)="onSubmit(); $event.preventDefault()" novalidate>
     @if (mode() === 'signup') {
-      <div class="field">
+      <div class="form-field">
         <label for="displayName">Display name</label>
         <input
           id="displayName"
+          class="form-input"
           type="text"
           autocomplete="name"
           [formField]="loginForm.displayName"
@@ -27,10 +28,11 @@
       </div>
     }
 
-    <div class="field">
+    <div class="form-field">
       <label for="email">Email</label>
       <input
         id="email"
+        class="form-input"
         type="email"
         autocomplete="email"
         [formField]="loginForm.email"
@@ -44,10 +46,11 @@
       }
     </div>
 
-    <div class="field">
+    <div class="form-field">
       <label for="password">Password</label>
       <input
         id="password"
+        class="form-input"
         type="password"
         [attr.autocomplete]="mode() === 'signin' ? 'current-password' : 'new-password'"
         [formField]="loginForm.password"
@@ -71,10 +74,10 @@
       }
     </p>
 
-    <button type="submit" class="submit" [disabled]="pending()">
+    <button type="submit" class="btn btn-accent" [disabled]="pending()">
       {{ pending() ? 'Please wait…' : submitLabel() }}
     </button>
   </form>
 
-  <button type="button" class="toggle" (click)="toggleMode()">{{ toggleLabel() }}</button>
+  <button type="button" class="btn-text toggle" (click)="toggleMode()">{{ toggleLabel() }}</button>
 </section>

@@ -1,32 +1,21 @@
 // Global layout primitives shared by the layout shells.
-// Kept global (not component-scoped) so the `main.main-content > *` rule can target the
-// routed component host element, removing per-page :host boilerplate.
+// Kept global (not component-scoped) so the `router-outlet + *` rule can target the routed
+// component host element, removing per-page :host boilerplate.
 
 :root {
   --header-height: 4rem;
   --sidebar-width: 280px;
   --footer-height: 2.5rem;
-  --footer-height-tablet: 7rem;
-  --footer-height-mobile: 10rem;
   --active-footer-height: var(--footer-height);
 }
 
-@media (max-width: 991.98px) {
-  :root {
-    --active-footer-height: var(--footer-height-tablet);
-  }
-}
-
-@media (max-width: 575.98px) {
-  :root {
-    --active-footer-height: var(--footer-height-mobile);
-  }
-}
-
 // Main content area: capped width, centred, fills the space between header and footer.
-// On desktop the routed component is the scroll container (viewport-lock); below desktop the
-// whole window scrolls.
+// On desktop the routed component fills the locked viewport but is a pass-through — the page
+// template inside it owns the scroll (toolbar stays fixed, .page-body scrolls). Below desktop
+// everything is overflow:visible so the whole window scrolls instead.
 main.main-content {
+  display: flex;
+  flex-direction: column;
   flex: 1;
   min-height: 0;
   overflow: hidden;
@@ -34,18 +23,22 @@ main.main-content {
   max-width: 1440px;
   margin: 0 auto;
 
-  > *:not(router-outlet) {
+  // A routed component is rendered as the next sibling of its <router-outlet>. Targeting that
+  // sibling (rather than only a direct child of main) propagates the fill+scroll chain through
+  // feature-outlet wrappers too, so a nested page's .page-body still owns the scroll.
+  router-outlet + * {
     display: flex;
     flex-direction: column;
     flex: 1;
+    min-height: 0;
     width: 100%;
-    overflow: auto;
+    overflow: hidden;
   }
 
   @media (max-width: 991.98px) {
     overflow: visible;
 
-    > *:not(router-outlet) {
+    router-outlet + * {
       overflow: visible;
     }
   }

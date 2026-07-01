@@ -18,35 +18,9 @@ strong {
   color: var(--text);
 }
 
-.resend {
-  font-family: var(--font-display);
-  font-size: var(--fs-body);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #fff;
-  background: var(--accent);
-  border: 0;
-  border-radius: var(--radius-card);
-  padding: 0.75rem 1.25rem;
-  cursor: pointer;
-  transition: opacity 0.15s;
-}
-
-.resend:hover:not(:disabled),
-.resend:focus-visible {
-  opacity: 0.85;
-}
-
-.resend:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
+// Status strip: success by default, accent on error. Typography via global .meta-text.
 .status {
   min-height: 1.25rem;
-  font-family: var(--font-mono);
-  font-size: var(--fs-label);
   color: var(--win);
 }
 
@@ -57,9 +31,4 @@ strong {
 .back {
   display: inline-block;
   margin-top: 1rem;
-  color: var(--accent);
-}
-
-.back:hover {
-  opacity: 0.85;
 }

@@ -1,0 +1,14 @@
+// Typographic primitives shared across the app.
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+
+// Mono micro-label — badges, meta strips, status text, footer. Set colour at the call site.
+.meta-text {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+}

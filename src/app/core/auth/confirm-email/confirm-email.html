@@ -7,7 +7,7 @@
       your account — you'll be signed in automatically.
     </p>
 
-    <button type="button" class="resend" [disabled]="resending()" (click)="resend()">
+    <button type="button" class="btn btn-accent" [disabled]="resending()" (click)="resend()">
       {{ resending() ? 'Sending…' : 'Resend confirmation email' }}
     </button>
   } @else {
@@ -16,16 +16,16 @@
     </p>
   }
 
-  <p class="status" role="status" aria-live="polite">
+  <p class="status meta-text" role="status" aria-live="polite">
     @if (resendMessage()) {
       {{ resendMessage() }}
     }
   </p>
-  <p class="status error" role="alert" aria-live="assertive">
+  <p class="status error meta-text" role="alert" aria-live="assertive">
     @if (resendError()) {
       {{ resendError() }}
     }
   </p>
 
-  <a class="back" routerLink="/login">Back to sign in</a>
+  <a class="btn-text back" routerLink="/login">Back to sign in</a>
 </section>
