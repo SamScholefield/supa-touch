@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 
 import { APP_PATHS } from './app.paths';
-import { authGuard, guestGuard } from './core/auth/auth-guard';
+import { authGuard, guestGuard, systemAdminGuard } from './core/auth/auth-guard';
 
 export const APP_ROUTES: Routes = [
   // Public area (no auth) — will host fixtures/results pages.
@@ -61,6 +61,7 @@ export const APP_ROUTES: Routes = [
       },
       {
         path: APP_PATHS.FEATURES.USERS,
+        canActivate: [systemAdminGuard],
         loadChildren: () =>
           import('./features/users/users-feature.routes').then((m) => m.USERS_ROUTES),
       },

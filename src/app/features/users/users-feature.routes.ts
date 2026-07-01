@@ -16,7 +16,7 @@ export const USERS_ROUTES: Routes = [
         loadComponent: () => import('./users-list/users-list').then((m) => m.UsersList),
       },
       {
-        path: APP_PATHS.SECTIONS.CREATE,
+        path: `${APP_PATHS.SECTIONS.EDIT}/:id`,
         loadComponent: () => import('./users-form/users-form').then((m) => m.UsersForm),
       },
     ],

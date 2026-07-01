@@ -1,0 +1,37 @@
+.user-form {
+  width: 100%;
+  max-width: 32rem;
+  margin: 2rem auto 0;
+  padding: 0 1rem;
+}
+
+.user-email {
+  margin: 0 0 1rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.role-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+}
+
+.role-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.role-label {
+  font-weight: 600;
+  color: var(--text);
+}

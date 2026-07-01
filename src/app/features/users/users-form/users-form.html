@@ -1,5 +1,65 @@
 <app-page-template>
-  <span pageTitle>New User</span>
+  <span pageTitle>Edit User</span>
 
-  <p>users-form works!</p>
+  @if (loading()) {
+    <p class="meta-text">Loading…</p>
+  } @else {
+    <section class="user-form">
+      <p class="user-email meta-text">{{ email() }}</p>
+
+      <form (submit)="onSubmit(); $event.preventDefault()" novalidate>
+        <div class="form-field">
+          <label for="display_name">Display name</label>
+          <input
+            id="display_name"
+            class="form-input"
+            type="text"
+            autocomplete="off"
+            [formField]="userForm.display_name"
+            [attr.aria-invalid]="
+              userForm.display_name().touched() && userForm.display_name().invalid()
+            "
+            [attr.aria-describedby]="
+              userForm.display_name().touched() && userForm.display_name().errors().length
+                ? 'display_name-error'
+                : null
+            "
+          />
+          @if (userForm.display_name().touched() && userForm.display_name().errors().length) {
+            <p id="display_name-error" class="field-error">
+              {{ userForm.display_name().errors()[0].message }}
+            </p>
+          }
+        </div>
+
+        <button type="submit" class="btn btn-accent" [disabled]="pending()">
+          {{ pending() ? 'Saving…' : 'Save name' }}
+        </button>
+      </form>
+
+      <div class="role-row">
+        <div class="role-copy">
+          <span class="role-label">System admin</span>
+          <span class="meta-text">Can administer all registered users.</span>
+        </div>
+        <button
+          type="button"
+          class="btn"
+          [class.btn-danger]="isSystemAdmin()"
+          [class.btn-surface]="!isSystemAdmin()"
+          [disabled]="togglingAdmin()"
+          [attr.aria-pressed]="isSystemAdmin()"
+          (click)="toggleSystemAdmin()"
+        >
+          {{ isSystemAdmin() ? 'Revoke admin' : 'Make admin' }}
+        </button>
+      </div>
+
+      <p class="form-message" role="alert" aria-live="assertive">
+        @if (errorMessage()) {
+          {{ errorMessage() }}
+        }
+      </p>
+    </section>
+  }
 </app-page-template>
