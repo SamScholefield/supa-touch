@@ -24,56 +24,86 @@
           }
         </div>
 
-        @if (isEdit()) {
-          <div class="form-field">
-            <span class="members-label">Members</span>
+        <button type="submit" class="btn btn-accent" [disabled]="pending()">
+          {{ pending() ? 'Saving…' : isEdit() ? 'Save name' : 'Create team' }}
+        </button>
+      </form>
 
-            @if (members().length) {
-              <ul class="member-list">
-                @for (member of members(); track member) {
-                  <li class="member-chip">
-                    <span
-                      >{{ member }}
-                      @if (!canRemove(member)) {
-                        <span class="member-you">(you)</span>
-                      }
-                    </span>
-                    @if (canRemove(member)) {
-                      <button
-                        type="button"
-                        class="btn-text"
-                        [attr.aria-label]="'Remove ' + member"
-                        (click)="removeMember(member)"
-                      >
-                        Remove
+      @if (isEdit()) {
+        <section class="members" aria-label="Team members">
+          <h2 class="members-heading">Members</h2>
+
+          @if (members().length) {
+            <ul class="member-list">
+              @for (member of members(); track member.id) {
+                <li class="member-row">
+                  <span class="member-name">
+                    {{ memberName(member) }}
+                    @if (member.is_admin) {
+                      <span class="badge">Admin</span>
+                    }
+                    @if (!isRegistered(member)) {
+                      <span class="badge badge--muted">Guest</span>
+                    }
+                  </span>
+                  <span class="member-actions">
+                    @if (isRegistered(member)) {
+                      <button type="button" class="btn-text" (click)="toggleAdmin(member)">
+                        {{ member.is_admin ? 'Remove admin' : 'Make admin' }}
                       </button>
                     }
-                  </li>
-                }
-              </ul>
-            } @else {
-              <p class="meta-text">No members yet.</p>
-            }
+                    <button
+                      type="button"
+                      class="btn-text"
+                      [attr.aria-label]="'Remove ' + memberName(member)"
+                      (click)="removeMember(member)"
+                    >
+                      Remove
+                    </button>
+                  </span>
+                </li>
+              }
+            </ul>
+          } @else {
+            <p class="meta-text">No members yet.</p>
+          }
 
-            <div class="member-add">
-              <input
-                #memberEl
-                class="form-input"
-                type="email"
-                autocomplete="off"
-                placeholder="name@example.com"
-                aria-label="Add member by email"
-                [value]="memberInput()"
-                (input)="memberInput.set(memberEl.value)"
-                (keydown.enter)="$event.preventDefault(); addMember()"
-              />
-              <button type="button" class="btn btn-surface" (click)="addMember()">Add</button>
-            </div>
-            @if (memberError()) {
-              <p class="field-error">{{ memberError() }}</p>
-            }
+          <div class="member-add">
+            <input
+              #nameEl
+              class="form-input"
+              type="text"
+              autocomplete="off"
+              placeholder="Name"
+              aria-label="Member name"
+              [value]="newName()"
+              (input)="newName.set(nameEl.value)"
+              (keydown.enter)="$event.preventDefault(); addMember()"
+            />
+            <input
+              #emailEl
+              class="form-input"
+              type="email"
+              autocomplete="off"
+              placeholder="Email (optional)"
+              aria-label="Member email (optional)"
+              [value]="newEmail()"
+              (input)="newEmail.set(emailEl.value)"
+              (keydown.enter)="$event.preventDefault(); addMember()"
+            />
+            <button
+              type="button"
+              class="btn btn-surface"
+              [disabled]="addingMember()"
+              (click)="addMember()"
+            >
+              Add
+            </button>
           </div>
-        }
+          @if (memberError()) {
+            <p class="field-error">{{ memberError() }}</p>
+          }
+        </section>
 
         <p class="form-message" role="alert" aria-live="assertive">
           @if (errorMessage()) {
@@ -81,12 +111,6 @@
           }
         </p>
 
-        <button type="submit" class="btn btn-accent" [disabled]="pending()">
-          {{ pending() ? 'Saving…' : isEdit() ? 'Save changes' : 'Create team' }}
-        </button>
-      </form>
-
-      @if (isEdit()) {
         <div class="danger-zone">
           @if (confirmingDelete()) {
             <p class="danger-prompt">Delete this team? This can't be undone.</p>
@@ -114,6 +138,12 @@
             </button>
           }
         </div>
+      } @else {
+        <p class="form-message" role="alert" aria-live="assertive">
+          @if (errorMessage()) {
+            {{ errorMessage() }}
+          }
+        </p>
       }
     </section>
   }

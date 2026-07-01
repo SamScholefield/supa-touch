@@ -6,6 +6,7 @@ import { APP_PATHS } from '../../../app.paths';
 import { Auth } from '../../../core/auth/auth';
 import { PageTemplate } from '../../../shared/page-template/page-template';
 import { mapTeamError } from '../team-errors';
+import { isRegistered, memberName, TeamMember } from '../team.model';
 import { Teams } from '../teams';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -27,8 +28,9 @@ export class TeamsForm implements OnInit {
   protected readonly isEdit = computed(() => !!this.id());
   protected readonly title = computed(() => (this.isEdit() ? 'Edit Team' : 'New Team'));
 
-  /** The signed-in user's email, lowercased — an admin cannot remove themselves. */
-  protected readonly currentEmail = computed(() => this.auth.user()?.email?.toLowerCase() ?? '');
+  // Template helpers.
+  protected readonly memberName = memberName;
+  protected readonly isRegistered = isRegistered;
 
   protected readonly loading = signal(false);
   protected readonly pending = signal(false);
@@ -43,10 +45,14 @@ export class TeamsForm implements OnInit {
     maxLength(path.name, 80, { message: '80 characters max' });
   });
 
-  // Members are edited as a plain signal array, not a form field.
-  protected readonly members = signal<string[]>([]);
-  protected readonly memberInput = signal('');
+  // Members are managed via granular RPCs; the list is refetched after each change.
+  protected readonly members = signal<TeamMember[]>([]);
+  protected readonly newName = signal('');
+  protected readonly newEmail = signal('');
   protected readonly memberError = signal<string | null>(null);
+  protected readonly addingMember = signal(false);
+
+  private readonly currentProfileId = computed(() => this.auth.user()?.id ?? null);
 
   ngOnInit(): void {
     const teamId = this.id();
@@ -56,41 +62,73 @@ export class TeamsForm implements OnInit {
   }
 
   private async load(teamId: string): Promise<void> {
-    const { data, error } = await this.teams.getTeam(teamId);
-    const email = this.auth.user()?.email?.toLowerCase() ?? '';
-    // Missing team, read error, or not an admin -> bounce back to the list (admins only).
-    if (error || !data || !data.admins.some((a) => a.toLowerCase() === email)) {
+    const [{ data: team, error: teamErr }, { data: members }] = await Promise.all([
+      this.teams.getTeam(teamId),
+      this.teams.listMembers(teamId),
+    ]);
+    const mine = (members ?? []).find((m) => m.profile_id === this.currentProfileId());
+    // Missing team, read error, or not a team admin -> bounce back to the list.
+    if (teamErr || !team || !mine?.is_admin) {
       await this.toList();
       return;
     }
-    this.model.set({ name: data.name });
-    this.members.set(data.members);
+    this.model.set({ name: team.name });
+    this.members.set(members ?? []);
     this.loading.set(false);
   }
 
-  protected addMember(): void {
-    const email = this.memberInput().trim().toLowerCase();
-    if (!EMAIL_RE.test(email)) {
+  private async refreshMembers(): Promise<void> {
+    const teamId = this.id();
+    if (!teamId) return;
+    const { data } = await this.teams.listMembers(teamId);
+    if (data) this.members.set(data);
+  }
+
+  protected async addMember(): Promise<void> {
+    const name = this.newName().trim();
+    const email = this.newEmail().trim();
+    if (!name) {
+      this.memberError.set('Enter a name');
+      return;
+    }
+    if (email && !EMAIL_RE.test(email)) {
       this.memberError.set('Enter a valid email address');
       return;
     }
-    if (this.members().some((m) => m.toLowerCase() === email)) {
-      this.memberError.set('That member is already on the team');
+    this.memberError.set(null);
+    this.addingMember.set(true);
+    try {
+      const { error } = await this.teams.addMember(this.id()!, name, email || null);
+      if (error) {
+        this.memberError.set(mapTeamError(error));
+        return;
+      }
+      this.newName.set('');
+      this.newEmail.set('');
+      await this.refreshMembers();
+    } finally {
+      this.addingMember.set(false);
+    }
+  }
+
+  protected async removeMember(member: TeamMember): Promise<void> {
+    this.errorMessage.set(null);
+    const { error } = await this.teams.removeMember(member.id);
+    if (error) {
+      this.errorMessage.set(mapTeamError(error));
       return;
     }
-    this.members.update((list) => [...list, email]);
-    this.memberInput.set('');
-    this.memberError.set(null);
+    await this.refreshMembers();
   }
 
-  /** Whether a member row may be removed — admins cannot remove themselves. */
-  protected canRemove(email: string): boolean {
-    return email.toLowerCase() !== this.currentEmail();
-  }
-
-  protected removeMember(email: string): void {
-    if (!this.canRemove(email)) return;
-    this.members.update((list) => list.filter((m) => m !== email));
+  protected async toggleAdmin(member: TeamMember): Promise<void> {
+    this.errorMessage.set(null);
+    const { error } = await this.teams.setMemberAdmin(member.id, !member.is_admin);
+    if (error) {
+      this.errorMessage.set(mapTeamError(error));
+      return;
+    }
+    await this.refreshMembers();
   }
 
   protected requestDelete(): void {
@@ -119,6 +157,7 @@ export class TeamsForm implements OnInit {
     }
   }
 
+  /** Create a new team (then jump to edit to manage members) or rename an existing one. */
   protected onSubmit(): void {
     this.errorMessage.set(null);
 
@@ -126,22 +165,35 @@ export class TeamsForm implements OnInit {
       this.pending.set(true);
       try {
         const name = this.model().name.trim();
-        const teamId = this.id();
-        const { error } = teamId
-          ? await this.teams.updateTeam(teamId, name, this.members())
-          : await this.teams.createTeam(name);
-        if (error) {
-          this.errorMessage.set(mapTeamError(error));
-          return;
+        if (this.isEdit()) {
+          const { error } = await this.teams.renameTeam(this.id()!, name);
+          if (error) {
+            this.errorMessage.set(mapTeamError(error));
+            return;
+          }
+          await this.toList();
+        } else {
+          const { data, error } = await this.teams.createTeam(name);
+          if (error) {
+            this.errorMessage.set(mapTeamError(error));
+            return;
+          }
+          const created = data as { id: string } | null;
+          if (created?.id) {
+            await this.router.navigate([...this.base, APP_PATHS.SECTIONS.EDIT, created.id]);
+          } else {
+            await this.toList();
+          }
         }
-        await this.toList();
       } finally {
         this.pending.set(false);
       }
     });
   }
 
+  private readonly base = ['/', APP_PATHS.FEATURES.ADMIN, APP_PATHS.FEATURES.TEAMS];
+
   private toList(): Promise<boolean> {
-    return this.router.navigate(['/', APP_PATHS.FEATURES.ADMIN, APP_PATHS.FEATURES.TEAMS]);
+    return this.router.navigate(this.base);
   }
 }

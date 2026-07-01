@@ -8,13 +8,13 @@
       <p class="meta-text">Loading…</p>
     } @else if (error()) {
       <p class="form-message" role="alert">{{ error() }}</p>
-    } @else if (list().length) {
+    } @else if (memberships().length) {
       <ul class="team-list">
-        @for (team of list(); track team.id) {
+        @for (membership of memberships(); track membership.team.id) {
           <li class="team-row">
-            <span class="team-name">{{ team.name }}</span>
-            @if (isAdmin(team)) {
-              <a class="btn-text" [routerLink]="editLink(team)">Edit</a>
+            <span class="team-name">{{ membership.team.name }}</span>
+            @if (membership.is_admin) {
+              <a class="btn-text" [routerLink]="editLink(membership.team.id)">Edit</a>
             }
           </li>
         }
