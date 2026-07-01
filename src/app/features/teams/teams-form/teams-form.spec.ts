@@ -5,11 +5,15 @@ import { Teams } from '../teams';
 import { TeamsForm } from './teams-form';
 
 const teamsStub = {
-  createTeam: async () => ({ data: null, error: null }),
-  updateTeam: async () => ({ data: null, error: null }),
-  deleteTeam: async () => ({ data: null, error: null }),
-  getTeam: async () => ({ data: null, error: null }),
   listMyTeams: async () => ({ data: [], error: null }),
+  getTeam: async () => ({ data: null, error: null }),
+  listMembers: async () => ({ data: [], error: null }),
+  createTeam: async () => ({ data: null, error: null }),
+  renameTeam: async () => ({ data: null, error: null }),
+  deleteTeam: async () => ({ data: null, error: null }),
+  addMember: async () => ({ data: null, error: null }),
+  removeMember: async () => ({ data: null, error: null }),
+  setMemberAdmin: async () => ({ data: null, error: null }),
 } as unknown as Teams;
 
 describe('TeamsForm', () => {

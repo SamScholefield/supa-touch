@@ -27,7 +27,7 @@
         Dashboard
       </a>
     </li>
-    @for (link of navLinks; track link.path) {
+    @for (link of navLinks(); track link.path) {
       <li>
         <a [routerLink]="link.path" routerLinkActive="active">{{ link.label }}</a>
       </li>

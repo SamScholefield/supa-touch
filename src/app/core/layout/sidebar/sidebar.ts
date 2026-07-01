@@ -1,9 +1,10 @@
-import { Component, effect, ElementRef, inject, viewChild } from '@angular/core';
+import { Component, computed, effect, ElementRef, inject, viewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { filter } from 'rxjs';
 
 import { APP_PATHS } from '../../../app.paths';
+import { CurrentProfile } from '../../auth/current-profile';
 import { Breakpoint } from '../../breakpoint/breakpoint';
 import { SidebarState } from '../sidebar-state';
 
@@ -21,16 +22,22 @@ export class Sidebar {
   protected readonly state = inject(SidebarState);
   protected readonly breakpoint = inject(Breakpoint);
   private readonly router = inject(Router);
+  private readonly currentProfile = inject(CurrentProfile);
 
   protected readonly adminLink = `/${APP_PATHS.FEATURES.ADMIN}`;
 
-  protected readonly navLinks = [
+  private readonly allLinks = [
     { label: 'Teams', path: `${this.adminLink}/${APP_PATHS.FEATURES.TEAMS}` },
-    { label: 'Users', path: `${this.adminLink}/${APP_PATHS.FEATURES.USERS}` },
+    { label: 'Users', path: `${this.adminLink}/${APP_PATHS.FEATURES.USERS}`, systemAdmin: true },
     { label: 'Groups', path: `${this.adminLink}/${APP_PATHS.FEATURES.GROUPS}` },
     { label: 'Rules', path: `${this.adminLink}/${APP_PATHS.FEATURES.RULES}` },
     { label: 'Profile', path: `${this.adminLink}/${APP_PATHS.FEATURES.PROFILE}` },
   ];
+
+  // System-admin-only entries (Users) are hidden from everyone else.
+  protected readonly navLinks = computed(() =>
+    this.allLinks.filter((link) => !link.systemAdmin || this.currentProfile.isSystemAdmin()),
+  );
 
   private readonly panel = viewChild<ElementRef<HTMLElement>>('panel');
 

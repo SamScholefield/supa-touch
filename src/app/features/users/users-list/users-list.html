@@ -1,5 +1,30 @@
 <app-page-template>
   <span pageTitle>Users</span>
 
-  <p>users-list works!</p>
+  <section class="users">
+    @if (loading()) {
+      <p class="meta-text">Loading…</p>
+    } @else if (error()) {
+      <p class="form-message" role="alert">{{ error() }}</p>
+    } @else if (list().length) {
+      <ul class="user-list">
+        @for (user of list(); track user.id) {
+          <li class="user-row">
+            <span class="user-info">
+              <span class="user-name">{{ name(user) }}</span>
+              <span class="user-email meta-text">{{ user.email }}</span>
+            </span>
+            <span class="user-actions">
+              @if (user.is_system_admin) {
+                <span class="badge">System admin</span>
+              }
+              <a class="btn-text" [routerLink]="editLink(user.id)">Edit</a>
+            </span>
+          </li>
+        }
+      </ul>
+    } @else {
+      <p class="meta-text">No users found.</p>
+    }
+  </section>
 </app-page-template>
