@@ -3,6 +3,7 @@ import { CanActivateChildFn, CanActivateFn, Router } from '@angular/router';
 
 import { APP_PATHS } from '../../app.paths';
 import { Auth } from './auth';
+import { CurrentProfile } from './current-profile';
 
 /** Gates the authenticated (admin) area. Redirects guests to /login. */
 export const authGuard: CanActivateFn & CanActivateChildFn = () => {
@@ -18,4 +19,13 @@ export const guestGuard: CanActivateFn = () => {
   const router = inject(Router);
 
   return auth.isAuthenticated() ? router.createUrlTree([APP_PATHS.FEATURES.ADMIN]) : true;
+};
+
+/** Restricts a route to SYSTEM_ADMINs; others are sent to the admin dashboard. */
+export const systemAdminGuard: CanActivateFn & CanActivateChildFn = async () => {
+  const profile = inject(CurrentProfile);
+  const router = inject(Router);
+
+  await profile.ensureLoaded();
+  return profile.isSystemAdmin() ? true : router.createUrlTree([APP_PATHS.FEATURES.ADMIN]);
 };

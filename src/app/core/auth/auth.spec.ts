@@ -17,7 +17,9 @@ describe('Auth', () => {
 
     const supabaseStub = {
       auth: {
-        onAuthStateChange: vi.fn().mockReturnValue({ data: { subscription: { unsubscribe: vi.fn() } } }),
+        onAuthStateChange: vi
+          .fn()
+          .mockReturnValue({ data: { subscription: { unsubscribe: vi.fn() } } }),
         getSession,
         signInWithPassword: vi.fn(),
         signUp: vi.fn(),
